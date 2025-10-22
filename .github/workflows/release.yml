@@ -1,0 +1,166 @@
+name: Release Plugin
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'plugin.json'
+      - '**.cs'
+      - '**.csproj'
+      - '.github/workflows/release.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  check-version:
+    runs-on: windows-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      should-release: ${{ steps.check-tag.outputs.should-release }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from plugin.json
+        id: get-version
+        shell: pwsh
+        run: |
+          $pluginJson = Get-Content -Path "plugin.json" -Raw | ConvertFrom-Json
+          $version = $pluginJson.Version
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "Plugin version: $version"
+
+      - name: Check if tag exists
+        id: check-tag
+        shell: pwsh
+        run: |
+          $version = "${{ steps.get-version.outputs.version }}"
+          $tagExists = git tag -l "v$version"
+          if ($tagExists) {
+            echo "Tag v$version already exists. Skipping release."
+            echo "should-release=false" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "Tag v$version does not exist. Will create release."
+            echo "should-release=true" >> $env:GITHUB_OUTPUT
+          }
+
+  build-and-release:
+    needs: check-version
+    if: needs.check-version.outputs.should-release == 'true'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Publish
+        run: dotnet publish -c Release -r win-x64 --no-self-contained
+
+      - name: Package release
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $version = "${{ needs.check-version.outputs.version }}"
+          $pluginName = "Flow.Launcher.Plugin.ByteStash"
+          $publishDir = "bin\Release\net9.0-windows8.0\win-x64\publish"
+          $zipName = "$pluginName-$version.zip"
+
+          # Verify publish directory exists
+          if (-not (Test-Path $publishDir)) {
+            Write-Error "Publish directory not found: $publishDir"
+            exit 1
+          }
+
+          # Verify critical files exist
+          $requiredFiles = @(
+            "$publishDir\Flow.Launcher.Plugin.ByteStash.dll",
+            "$publishDir\plugin.json"
+          )
+
+          foreach ($file in $requiredFiles) {
+            if (-not (Test-Path $file)) {
+              Write-Error "Required file not found: $file"
+              exit 1
+            }
+          }
+
+          # Create zip file from publish directory
+          Compress-Archive -Path "$publishDir\*" -DestinationPath $zipName -Force
+
+          # Verify zip was created
+          if (-not (Test-Path $zipName)) {
+            Write-Error "Failed to create zip file: $zipName"
+            exit 1
+          }
+
+          $zipSize = (Get-Item $zipName).Length / 1MB
+          Write-Host "Package created: $zipName (${zipSize:N2} MB)"
+
+          echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
+
+      - name: Generate release notes
+        id: release-notes
+        shell: pwsh
+        run: |
+          $version = "${{ needs.check-version.outputs.version }}"
+
+          # Get the previous tag
+          $previousTag = git describe --tags --abbrev=0 HEAD^ 2>$null
+
+          if ($previousTag) {
+            $commitRange = "$previousTag..HEAD"
+          } else {
+            $commitRange = "HEAD"
+          }
+
+          # Get commit messages
+          $commits = git log $commitRange --pretty=format:"- %s" --no-merges
+
+          $releaseNotes = @"
+          ## Release $version
+
+          ### Changes
+          $commits
+
+          ### Installation
+          1. Download the zip file below
+          2. Open Flow Launcher and type: ``pm install <path-to-zip>``
+
+          Or install directly from the Flow Launcher Plugin Store.
+          "@
+
+          # Save to file for GitHub release
+          $releaseNotes | Out-File -FilePath "release-notes.md" -Encoding utf8
+
+          echo "Release notes generated"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.check-version.outputs.version }}
+          name: Release v${{ needs.check-version.outputs.version }}
+          body_path: release-notes.md
+          files: ${{ env.ZIP_NAME }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-release-${{ needs.check-version.outputs.version }}
+          path: ${{ env.ZIP_NAME }}
+          retention-days: 30

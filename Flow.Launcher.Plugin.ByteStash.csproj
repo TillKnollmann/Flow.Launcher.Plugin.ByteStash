@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	
+
   <PropertyGroup>
  <TargetFramework>net9.0-windows8.0</TargetFramework>
     <UseWPF>true</UseWPF>
@@ -74,13 +74,27 @@
     </Compile>
   </ItemGroup>
 
-  <Target Name="EnsureOpenApiGeneration" BeforeTargets="BeforeCompile;CoreCompile" AfterTargets="PrepareForBuild">
+  <Target Name="EnsureOpenApiGeneration" BeforeTargets="BeforeCompile;BeforePublish" AfterTargets="PrepareForBuild">
+    <!--
+      Locate the auto-generated NSwag client (obj\*bytestash*Client.cs) and ensure
+      MSBuild compiles that file. Avoid copying to prevent duplicate compilation.
+      Also clean up any previously-copied file at obj\ByteStashClient\ByteStashClient.cs.
+    -->
     <PropertyGroup>
-    <_OpenApiGeneratedFile>$(MSBuildProjectDirectory)\obj\bytestash-v1.0.0Client.cs</_OpenApiGeneratedFile>
+      <_GeneratedSearchPattern>$(MSBuildProjectDirectory)\obj\*bytestash*Client.cs</_GeneratedSearchPattern>
+      <_LegacyCopiedPath>$(MSBuildProjectDirectory)\obj\ByteStashClient\ByteStashClient.cs</_LegacyCopiedPath>
     </PropertyGroup>
-    <ItemGroup Condition="Exists('$(_OpenApiGeneratedFile)')">
-      <Compile Include="$(_OpenApiGeneratedFile)" Visible="false" />
+
+    <!-- Remove any leftover copied file from earlier runs to avoid duplicate types -->
+    <Delete Files="$(_LegacyCopiedPath)" Condition="Exists('$(_LegacyCopiedPath)')" />
+
+    <!-- Find the generated file (if present) and include it for compilation -->
+    <ItemGroup>
+      <_FoundGeneratedFiles Include="$(_GeneratedSearchPattern)" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'@(_FoundGeneratedFiles)' != ''">
+      <Compile Include="@(_FoundGeneratedFiles)" Visible="false" />
     </ItemGroup>
   </Target>
-
 </Project>

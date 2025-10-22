@@ -3,20 +3,11 @@
 :icons: font
 :source-highlighter: rouge
 
-= ByteStash Plugin for FlowLauncher
+++++
+<p align="center" style="margin-top:30px;margin-bottom:30px;"><a href="https://github.com/jordan-dalby/ByteStash"><img src= "DocAssets/ByteStash.png" width="12.5%"/></a><img src= "DocAssets/heart.png" width="12.5%"/><a href="https://www.flowlauncher.com"><img src= "DocAssets/FlowLauncher.png" width="12.5%"/></a></p>
+++++
 
-[cols=">,^,<",frame=none,grid=none,align=center]
-|===
-a|
-[.right.text-right]
-image::DocAssets/ByteStash.png[ByteStash Icon,30,30]
-a|
-[.center.text-center]
-image::DocAssets/heart.png[Heart Icon,36,36]
-a|
-[.left.text-left]
-image::DocAssets/FlowLauncher.png[FlowLauncher Icon,26,26]
-|===
+= ByteStash Plugin for FlowLauncher
 
 A powerful https://www.flowlauncher.com/[FlowLauncher] plugin for managing and accessing your code snippets stored in https://github.com/jordan-dalby/ByteStash[ByteStash] directly from your launcher.
 
