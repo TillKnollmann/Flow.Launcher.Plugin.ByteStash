@@ -61,7 +61,7 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
                 if (_settings.BaseUrl != value)
                 {
                     _settings.BaseUrl = value;
-                    _context.API.SavePluginSettings();
+                    _context.API.SaveSettingJsonStorage<Settings>();
                     OnPropertyChanged();
                     (OpenUrlCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 }
@@ -90,7 +90,7 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
                 if (_settings.ApiKey != value)
                 {
                     _settings.ApiKey = value;
-                    _context.API.SavePluginSettings();
+                    _context.API.SaveSettingJsonStorage<Settings>();
                     OnPropertyChanged();
                 }
             }
@@ -107,7 +107,7 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
                 if (_settings.SearchInCode != value)
                 {
                     _settings.SearchInCode = value;
-                    _context.API.SavePluginSettings();
+                    _context.API.SaveSettingJsonStorage<Settings>();
                     OnPropertyChanged();
                 }
             }
