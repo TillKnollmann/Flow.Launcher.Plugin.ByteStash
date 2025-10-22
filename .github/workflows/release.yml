@@ -67,10 +67,8 @@ jobs:
       - name: Generate API Client
         shell: pwsh
         run: |
-          # Trigger NSwag code generation without building the entire project
           dotnet msbuild -t:GenerateOpenApiCode -p:Configuration=Release
 
-          # Verify the generated file exists
           $generatedFile = Get-ChildItem -Path "obj" -Recurse -Filter "*Client.cs" | Select-Object -First 1
           if ($generatedFile) {
             Write-Host "✓ API Client generated: $($generatedFile.FullName)"
@@ -92,13 +90,11 @@ jobs:
           $publishDir = "bin\Release\win-x64\publish"
           $zipName = "$pluginName-$version.zip"
 
-          # Verify publish directory exists
           if (-not (Test-Path $publishDir)) {
             Write-Error "Publish directory not found: $publishDir"
             exit 1
           }
 
-          # Verify critical files exist
           $requiredFiles = @(
             "$publishDir\Flow.Launcher.Plugin.ByteStash.dll",
             "$publishDir\plugin.json"
@@ -111,10 +107,8 @@ jobs:
             }
           }
 
-          # Create zip file from publish directory
           Compress-Archive -Path "$publishDir\*" -DestinationPath $zipName -Force
 
-          # Verify zip was created
           if (-not (Test-Path $zipName)) {
             Write-Error "Failed to create zip file: $zipName"
             exit 1
@@ -131,7 +125,6 @@ jobs:
         run: |
           $version = "${{ needs.check-version.outputs.version }}"
 
-          # Get the previous tag
           $previousTag = git describe --tags --abbrev=0 HEAD^ 2>$null
 
           if ($previousTag) {
@@ -140,7 +133,6 @@ jobs:
             $commitRange = "HEAD"
           }
 
-          # Get commit messages
           $commits = git log $commitRange --pretty=format:"- %s" --no-merges
 
           $releaseNotes = @"
