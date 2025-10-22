@@ -47,7 +47,7 @@ After installation, you need to configure the plugin with your ByteStash connect
 
 . Open FlowLauncher Settings (type `settings` in FlowLauncher)
 . Navigate to the *Plugins* section
-. Find *ByteStash* in the plugin list
+. Find *Byte Stash* in the plugin list
 . Configure the following settings:
 +
 [cols="1,3"]
