@@ -15,7 +15,7 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
     public class ByteStashSettingsViewModel : INotifyPropertyChanged
     {
         private readonly PluginInitContext _context;
-        private readonly Settings _settings;
+        private Settings _settings;
 
         /// <summary>
         /// Occurs when a property value changes.
@@ -41,14 +41,12 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
             _context = context;
             _settings = settings;
 
-            // Set the copy icon path once
             if (string.IsNullOrEmpty(OpenUrlPath))
             {
                 var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 OpenUrlPath = Path.Combine(assemblyPath, "Icons", Icon.EXTERNAL_LINK);
             }
 
-            // Initialize the OpenUrlCommand
             OpenUrlCommand = new RelayCommand(OpenUrl, CanOpenUrl);
         }
 
@@ -68,6 +66,17 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
                     (OpenUrlCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 }
             }
+        }
+
+        private string FormatUrl(string value)
+        {
+            string url = value.Trim();
+            if (!url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+                        !url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                url = "https://" + url;
+            }
+            return url;
         }
 
         /// <summary>
@@ -123,14 +132,8 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
             {
                 try
                 {
-                    var url = BaseUrl.Trim();
-                    // Ensure the URL has a protocol
-                    if (!url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
-                        !url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                    {
-                        url = "https://" + url;
-                    }
 
+                    string url = FormatUrl(BaseUrl);
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = url,
