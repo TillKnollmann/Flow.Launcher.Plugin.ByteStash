@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup>
+ <TargetFramework>net9.0-windows8.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Flow.Launcher.Plugin.ByteStash</AssemblyName>
+    <PackageId>Flow.Launcher.Plugin.ByteStash</PackageId>
+    <Authors>TillKnollmann</Authors>
+    <PackageProjectUrl>https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash</RepositoryUrl>
+    <PackageTags>flow-launcher flow-plugin</PackageTags>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugSymbols>false</DebugSymbols>
+  <DebugType>None</DebugType>
+</PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+	<Content Include="Icons\*">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Flow.Launcher.Plugin.ByteStash\**" />
+    <EmbeddedResource Remove="Flow.Launcher.Plugin.ByteStash\**" />
+    <None Remove="Flow.Launcher.Plugin.ByteStash\**" />
+    <Page Remove="Flow.Launcher.Plugin.ByteStash\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+  <EmbeddedResource Update="Resources\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Strings.de.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flow.Launcher.Plugin" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="9.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="NSwag.ApiDescription.Client" Version="14.6.1">
+      <PrivateAssets>all</PrivateAssets>
+  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <OpenApiReference Include="Api\bytestash-v1.0.0.json" CodeGenerator="NSwagCSharp" Namespace="ByteStashClient" ClassName="ByteStashClient" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <Target Name="EnsureOpenApiGeneration" BeforeTargets="BeforeCompile;CoreCompile" AfterTargets="PrepareForBuild">
+    <PropertyGroup>
+    <_OpenApiGeneratedFile>$(MSBuildProjectDirectory)\obj\bytestash-v1.0.0Client.cs</_OpenApiGeneratedFile>
+    </PropertyGroup>
+    <ItemGroup Condition="Exists('$(_OpenApiGeneratedFile)')">
+      <Compile Include="$(_OpenApiGeneratedFile)" Visible="false" />
+    </ItemGroup>
+  </Target>
+
+</Project>

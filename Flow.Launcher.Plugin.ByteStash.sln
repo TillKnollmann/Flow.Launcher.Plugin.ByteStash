@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flow.Launcher.Plugin.ByteStash", "Flow.Launcher.Plugin.ByteStash.csproj", "{96B624EF-9B33-A3A4-ADBF-E3542F56D01A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96B624EF-9B33-A3A4-ADBF-E3542F56D01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B624EF-9B33-A3A4-ADBF-E3542F56D01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B624EF-9B33-A3A4-ADBF-E3542F56D01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B624EF-9B33-A3A4-ADBF-E3542F56D01A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36F82D23-294C-4687-922B-D011C1470F19}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UserControl x:Class="Flow.Launcher.Plugin.ByteStash.Views.ByteStashSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Flow.Launcher.Plugin.ByteStash.ViewModels"
+             xmlns:resources="clr-namespace:Flow.Launcher.Plugin.ByteStash.Resources"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:ByteStashSettingsViewModel}"
+             d:DesignHeight="200"
+             d:DesignWidth="900"
+             Background="Transparent">
+    <StackPanel Orientation="Vertical"
+                Margin="20">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!-- Base URL Setting -->
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       Text="{x:Static resources:Strings.Settings_BaseUrl_Label}"
+                       VerticalAlignment="Top"
+                       Margin="0,8,10,0" />
+            <Grid Grid.Row="0"
+                  Grid.Column="1"
+                  Margin="0,0,0,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Text="{Binding BaseUrl, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,8,0" />
+                <Button Grid.Column="1"
+                        Command="{Binding OpenUrlCommand}"
+                        ToolTip="{x:Static resources:Strings.ByteStashSettings_OpenUrl_Tooltip}"
+                        Width="30"
+                        Height="30"
+                        Padding="6">
+                    <Image Source="{Binding OpenUrlPath}"
+                           Width="16"
+                           Height="16"
+                           Stretch="Uniform" />
+                </Button>
+            </Grid>
+            <!-- API Key Setting -->
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Text="{x:Static resources:Strings.Settings_ApiKey_Label}"
+                       VerticalAlignment="Top"
+                       Margin="0,5,10,0" />
+            <StackPanel Grid.Row="1"
+                        Grid.Column="1"
+                        Orientation="Vertical"
+                        Margin="0,0,0,15">
+                <TextBox Text="{Binding ApiKey, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="{x:Static resources:Strings.Settings_ApiKey_HelpText}"
+                           Style="{DynamicResource SettingSubTitleLabel}"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+            <!-- Search in Code Setting -->
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Text="{x:Static resources:Strings.Settings_SearchInCode_Label}"
+                       VerticalAlignment="Top"
+                       Margin="0,4,10,0" />
+            <StackPanel Grid.Row="2"
+                        Grid.Column="1"
+                        Orientation="Vertical"
+                        Margin="0,0,0,15">
+                <CheckBox IsChecked="{Binding SearchInCode, UpdateSourceTrigger=PropertyChanged}"
+                          VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static resources:Strings.Settings_SearchInCode_HelpText}"
+                           Style="{DynamicResource SettingSubTitleLabel}"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>

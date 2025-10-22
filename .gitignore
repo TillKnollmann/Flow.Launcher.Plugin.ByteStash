@@ -52,4 +52,8 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-/.vs/Flow.Launcher.Plugin.ByteStash
+
+# VisualStudio
+.vs/
+obj/
+bin/
