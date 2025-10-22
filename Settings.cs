@@ -1,11 +1,24 @@
 namespace Flow.Launcher.Plugin.ByteStash
 {
-    internal class Settings
+
+    /// <summary>
+    /// Represents configuration settings for connecting to the ByteStash API v1.0.0.
+    /// </summary>
+    public class Settings
     {
-        internal string BaseUrl { get; set; } = string.Empty;
+        /// <summary>
+        /// The base URL for the API requests.
+        /// </summary>
+        public string BaseUrl { get; set; } = string.Empty;
 
-        internal string ApiKey { get; set; } = string.Empty;
+        /// <summary>
+        /// The API key used for authenticating requests.
+        /// </summary>
+        public string ApiKey { get; set; } = string.Empty;
 
-        internal bool SearchInCode { get; set; } = true;
+        /// <summary>
+        /// Indicates whether the search operation should include searching in the code.
+        /// </summary>
+        public bool SearchInCode { get; set; } = false;
     }
 }
