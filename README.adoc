@@ -4,7 +4,7 @@
 :source-highlighter: rouge
 
 ++++
-<p align="center" style="margin-top:30px;margin-bottom:30px;"><a href="https://github.com/jordan-dalby/ByteStash"><img src= "DocAssets/ByteStash.png" width="12.5%"/></a><img src= "DocAssets/heart.png" width="12.5%"/><a href="https://www.flowlauncher.com"><img src= "DocAssets/FlowLauncher.png" width="12.5%"/></a></p>
+<p align="center" style="margin-top:30px;margin-bottom:30px;"><a href="https://github.com/jordan-dalby/ByteStash"><img src= "DocAssets/ByteStash.png" width="10%"/></a><img src= "DocAssets/heart.png" width="10%"/><a href="https://www.flowlauncher.com"><img src= "DocAssets/FlowLauncher.png" width="10%"/></a></p>
 ++++
 
 = ByteStash Plugin for FlowLauncher
