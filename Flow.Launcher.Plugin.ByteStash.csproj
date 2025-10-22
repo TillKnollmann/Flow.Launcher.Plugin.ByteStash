@@ -66,6 +66,11 @@
     <OpenApiReference Include="Api\bytestash-v1.0.0.json" CodeGenerator="NSwagCSharp" Namespace="ByteStashClient" ClassName="ByteStashClient" />
   </ItemGroup>
 
+  <!-- Include generated file dynamically -->
+  <ItemGroup>
+    <Compile Include="obj\bytestash-v1.0.0Client.cs" Visible="false" Condition="Exists('obj\bytestash-v1.0.0Client.cs')" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Update="Resources\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -73,28 +78,4 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
-  <Target Name="EnsureOpenApiGeneration" BeforeTargets="BeforeCompile;BeforePublish" AfterTargets="PrepareForBuild">
-    <!--
-      Locate the auto-generated NSwag client (obj\*bytestash*Client.cs) and ensure
-      MSBuild compiles that file. Avoid copying to prevent duplicate compilation.
-      Also clean up any previously-copied file at obj\ByteStashClient\ByteStashClient.cs.
-    -->
-    <PropertyGroup>
-      <_GeneratedSearchPattern>$(MSBuildProjectDirectory)\obj\*bytestash*Client.cs</_GeneratedSearchPattern>
-      <_LegacyCopiedPath>$(MSBuildProjectDirectory)\obj\ByteStashClient\ByteStashClient.cs</_LegacyCopiedPath>
-    </PropertyGroup>
-
-    <!-- Remove any leftover copied file from earlier runs to avoid duplicate types -->
-    <Delete Files="$(_LegacyCopiedPath)" Condition="Exists('$(_LegacyCopiedPath)')" />
-
-    <!-- Find the generated file (if present) and include it for compilation -->
-    <ItemGroup>
-      <_FoundGeneratedFiles Include="$(_GeneratedSearchPattern)" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'@(_FoundGeneratedFiles)' != ''">
-      <Compile Include="@(_FoundGeneratedFiles)" Visible="false" />
-    </ItemGroup>
-  </Target>
 </Project>

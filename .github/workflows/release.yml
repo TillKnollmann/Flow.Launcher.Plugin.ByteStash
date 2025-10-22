@@ -64,6 +64,21 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
+      - name: Generate API Client
+        shell: pwsh
+        run: |
+          # Trigger NSwag code generation without building the entire project
+          dotnet msbuild -t:GenerateOpenApiCode -p:Configuration=Release
+
+          # Verify the generated file exists
+          $generatedFile = Get-ChildItem -Path "obj" -Recurse -Filter "*Client.cs" | Select-Object -First 1
+          if ($generatedFile) {
+            Write-Host "✓ API Client generated: $($generatedFile.FullName)"
+          } else {
+            Write-Error "✗ API Client generation failed"
+            exit 1
+          }
+
       - name: Publish
         run: dotnet publish -c Release -r win-x64 --no-self-contained
 
