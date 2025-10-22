@@ -89,7 +89,7 @@ jobs:
 
           $version = "${{ needs.check-version.outputs.version }}"
           $pluginName = "Flow.Launcher.Plugin.ByteStash"
-          $publishDir = "bin\Release\net9.0-windows8.0\win-x64\publish"
+          $publishDir = "bin\Release\win-x64\publish"
           $zipName = "$pluginName-$version.zip"
 
           # Verify publish directory exists
