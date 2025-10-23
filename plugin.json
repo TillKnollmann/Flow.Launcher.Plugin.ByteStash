@@ -8,6 +8,6 @@
     "Version": "1.0.0",
     "Language": "csharp",
     "Website": "https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash",
-    "IcoPath": "https://cdn.jsdelivr.net/gh/TillKnollmann/Flow.Launcher.Plugin.ByteStash@main/Images/app.png",
+    "IcoPath": "Images/app.png",
     "ExecuteFileName": "Flow.Launcher.Plugin.ByteStash.dll"
 }

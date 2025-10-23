@@ -107,10 +107,6 @@ jobs:
             }
           }
 
-          $jsonContent = Get-Content "$publishDir\plugin.json" -Raw | ConvertFrom-Json
-          $jsonContent.IcoPath = "Images/app.png"
-          $jsonString = $jsonContent | ConvertTo-Json
-          Set-Content "$publishDir\plugin.json" -Value $jsonString
           Compress-Archive -Path "$publishDir\*" -DestinationPath $zipName -Force
 
           if (-not (Test-Path $zipName)) {
