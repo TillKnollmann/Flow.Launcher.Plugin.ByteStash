@@ -255,4 +255,13 @@
   <data name="ContextMenu_Delete_Error_Message" xml:space="preserve">
     <value>'{0}' konnte nicht gelöscht werden: '{1}'</value>
   </data>
+  <data name="Settings_CreationQueryDelimiter_HelpText" xml:space="preserve">
+    <value>Während der Erstellung eines Snippets wird dieses Trennzeichen verwendet, um Felder des Snippets (z.B. Name, Beschreibung, ...) im Eingabefeld voneinander zu trennen.</value>
+  </data>
+  <data name="Settings_CreationQueryDelimiter_Label" xml:space="preserve">
+    <value>Erstellungstrennzeichen</value>
+  </data>
+  <data name="Settings_CreationQueryDelimiter_ResetButton_Text" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
 </root>

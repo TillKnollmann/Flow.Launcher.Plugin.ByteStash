@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.Versioning;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -126,11 +127,11 @@ namespace Flow.Launcher.Plugin.ByteStash
 
             string fullCommand = "+ "
                 + Strings.CreateSnippet_Help_SubTitle_Title
-                + " | "
+                + " " + _settings.CreationQueryDelimiter + " "
                 + Strings.CreateSnippet_Help_SubTitle_Description
-                + " | "
+                + " " + _settings.CreationQueryDelimiter + " "
                 + Strings.CreateSnippet_Help_SubTitle_Categories
-                + " | "
+                + " " + _settings.CreationQueryDelimiter + " "
                 + Strings.CreateSnippet_Help_SubTitle_Code;
 
             if (string.IsNullOrWhiteSpace(input))
@@ -149,7 +150,7 @@ namespace Flow.Launcher.Plugin.ByteStash
 
             string clipboardCode = GetClipboardText();
 
-            var parts = input.Split('|').Select(p => p.Trim()).ToArray();
+            var parts = input.Split(" " + _settings.CreationQueryDelimiter + " ").Select(p => p.Trim()).ToArray();
 
             string title = parts[0];
             string description = parts.Length > 1 ? parts[1] : string.Empty;
@@ -196,17 +197,17 @@ namespace Flow.Launcher.Plugin.ByteStash
             return results;
         }
 
-        private static string GetQuerySuggestionText(string input, string description, string categoriesInput)
+        private string GetQuerySuggestionText(string input, string description, string categoriesInput)
         {
             string querySuggestionText = "+ " + input;
-            int progress = querySuggestionText.ToCharArray().Where(c => c == '|').Count();
+            int progress = Regex.Matches(querySuggestionText, " " + _settings.CreationQueryDelimiter + " ").Count;
             if (progress < 1)
             {
-                querySuggestionText += " | ";
+                querySuggestionText += " " + _settings.CreationQueryDelimiter + " ";
             }
             if (string.IsNullOrWhiteSpace(description))
             {
-                if (querySuggestionText.EndsWith('|'))
+                if (querySuggestionText.EndsWith(" "+ _settings.CreationQueryDelimiter))
                 {
                     querySuggestionText += " ";
                 }
@@ -214,11 +215,11 @@ namespace Flow.Launcher.Plugin.ByteStash
             }
             if (progress < 2)
             {
-                querySuggestionText += " | ";
+                querySuggestionText += " " + _settings.CreationQueryDelimiter + " ";
             }
             if (string.IsNullOrWhiteSpace(categoriesInput))
             {
-                if (querySuggestionText.EndsWith('|'))
+                if (querySuggestionText.EndsWith(" " + _settings.CreationQueryDelimiter))
                 {
                     querySuggestionText += " ";
                 }
@@ -226,7 +227,7 @@ namespace Flow.Launcher.Plugin.ByteStash
             }
             if (progress < 3)
             {
-                querySuggestionText += " | " + Strings.CreateSnippet_Help_SubTitle_Code;
+                querySuggestionText += " " + _settings.CreationQueryDelimiter + " " + Strings.CreateSnippet_Help_SubTitle_Code;
             }
 
             return querySuggestionText;

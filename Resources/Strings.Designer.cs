@@ -8,11 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Flow.Launcher.Plugin.ByteStash.Resources
-{
+namespace Flow.Launcher.Plugin.ByteStash.Resources {
     using System;
-
-
+    
+    
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
@@ -23,554 +22,481 @@ namespace Flow.Launcher.Plugin.ByteStash.Resources
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Strings
-    {
-
+    public class Strings {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings()
-        {
+        internal Strings() {
         }
-
+        
         /// <summary>
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Flow.Launcher.Plugin.ByteStash.Resources.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Open in browser ähnelt.
         /// </summary>
-        public static string ByteStashSettings_OpenUrl_Tooltip
-        {
-            get
-            {
+        public static string ByteStashSettings_OpenUrl_Tooltip {
+            get {
                 return ResourceManager.GetString("ByteStashSettings_OpenUrl_Tooltip", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Copy: {0} ähnelt.
         /// </summary>
-        public static string ContextMenu_CopyCode
-        {
-            get
-            {
+        public static string ContextMenu_CopyCode {
+            get {
                 return ResourceManager.GetString("ContextMenu_CopyCode", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {0} ({1} chars) ähnelt.
         /// </summary>
-        public static string ContextMenu_CopyCode_SubTitle
-        {
-            get
-            {
+        public static string ContextMenu_CopyCode_SubTitle {
+            get {
                 return ResourceManager.GetString("ContextMenu_CopyCode_SubTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Delete ähnelt.
         /// </summary>
-        public static string ContextMenu_Delete
-        {
-            get
-            {
+        public static string ContextMenu_Delete {
+            get {
                 return ResourceManager.GetString("ContextMenu_Delete", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure that you want to delete &apos;{0}&apos;? ähnelt.
         /// </summary>
-        public static string ContextMenu_Delete_Confirm_Message
-        {
-            get
-            {
+        public static string ContextMenu_Delete_Confirm_Message {
+            get {
                 return ResourceManager.GetString("ContextMenu_Delete_Confirm_Message", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Delete snippet? ähnelt.
         /// </summary>
-        public static string ContextMenu_Delete_Confirm_Title
-        {
-            get
-            {
+        public static string ContextMenu_Delete_Confirm_Title {
+            get {
                 return ResourceManager.GetString("ContextMenu_Delete_Confirm_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &apos;{0}&apos; could not be deleted: &apos;{1}&apos; ähnelt.
         /// </summary>
-        public static string ContextMenu_Delete_Error_Message
-        {
-            get
-            {
+        public static string ContextMenu_Delete_Error_Message {
+            get {
                 return ResourceManager.GetString("ContextMenu_Delete_Error_Message", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Deletion failed ähnelt.
         /// </summary>
-        public static string ContextMenu_Delete_Error_Title
-        {
-            get
-            {
+        public static string ContextMenu_Delete_Error_Title {
+            get {
                 return ResourceManager.GetString("ContextMenu_Delete_Error_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Delete &apos;{0}&apos; ähnelt.
         /// </summary>
-        public static string ContextMenu_Delete_SubTitle
-        {
-            get
-            {
+        public static string ContextMenu_Delete_SubTitle {
+            get {
                 return ResourceManager.GetString("ContextMenu_Delete_SubTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &apos;{0}&apos; was successfully deleted! ähnelt.
         /// </summary>
-        public static string ContextMenu_Delete_Success_Message
-        {
-            get
-            {
+        public static string ContextMenu_Delete_Success_Message {
+            get {
                 return ResourceManager.GetString("ContextMenu_Delete_Success_Message", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Deleted ähnelt.
         /// </summary>
-        public static string ContextMenu_Delete_Success_Title
-        {
-            get
-            {
+        public static string ContextMenu_Delete_Success_Title {
+            get {
                 return ResourceManager.GetString("ContextMenu_Delete_Success_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Failed to open ByteStash: {0} ähnelt.
         /// </summary>
-        public static string ContextMenu_Error_CannotOpenByteStash
-        {
-            get
-            {
+        public static string ContextMenu_Error_CannotOpenByteStash {
+            get {
                 return ResourceManager.GetString("ContextMenu_Error_CannotOpenByteStash", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Error ähnelt.
         /// </summary>
-        public static string ContextMenu_Error_Title
-        {
-            get
-            {
+        public static string ContextMenu_Error_Title {
+            get {
                 return ResourceManager.GetString("ContextMenu_Error_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Fragment {0} ähnelt.
         /// </summary>
-        public static string ContextMenu_Fragment_DefaultName
-        {
-            get
-            {
+        public static string ContextMenu_Fragment_DefaultName {
+            get {
                 return ResourceManager.GetString("ContextMenu_Fragment_DefaultName", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Copied ähnelt.
         /// </summary>
-        public static string ContextMenu_Success_CodeCopied
-        {
-            get
-            {
+        public static string ContextMenu_Success_CodeCopied {
+            get {
                 return ResourceManager.GetString("ContextMenu_Success_CodeCopied", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Code from &apos;{0}&apos; copied to clipboard ähnelt.
         /// </summary>
-        public static string ContextMenu_Success_CodeCopied_Fragment
-        {
-            get
-            {
+        public static string ContextMenu_Success_CodeCopied_Fragment {
+            get {
                 return ResourceManager.GetString("ContextMenu_Success_CodeCopied_Fragment", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Open in ByteStash ähnelt.
         /// </summary>
-        public static string ContextMenu_ViewInByteStash
-        {
-            get
-            {
+        public static string ContextMenu_ViewInByteStash {
+            get {
                 return ResourceManager.GetString("ContextMenu_ViewInByteStash", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Open &apos;{0}&apos; in ByteStash ähnelt.
         /// </summary>
-        public static string ContextMenu_ViewInByteStash_SubTitle
-        {
-            get
-            {
+        public static string ContextMenu_ViewInByteStash_SubTitle {
+            get {
                 return ResourceManager.GetString("ContextMenu_ViewInByteStash_SubTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Failed to create snippet: {0} ähnelt.
         /// </summary>
-        public static string CreateSnippet_Error_CannotCreate
-        {
-            get
-            {
+        public static string CreateSnippet_Error_CannotCreate {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Error_CannotCreate", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Code required ähnelt.
         /// </summary>
-        public static string CreateSnippet_Error_EmptyCode
-        {
-            get
-            {
+        public static string CreateSnippet_Error_EmptyCode {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Error_EmptyCode", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Title required ähnelt.
         /// </summary>
-        public static string CreateSnippet_Error_EmptyTitle
-        {
-            get
-            {
+        public static string CreateSnippet_Error_EmptyTitle {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Error_EmptyTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die categories ähnelt.
         /// </summary>
-        public static string CreateSnippet_Help_SubTitle_Categories
-        {
-            get
-            {
+        public static string CreateSnippet_Help_SubTitle_Categories {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Help_SubTitle_Categories", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die code ähnelt.
         /// </summary>
-        public static string CreateSnippet_Help_SubTitle_Code
-        {
-            get
-            {
+        public static string CreateSnippet_Help_SubTitle_Code {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Help_SubTitle_Code", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die description ähnelt.
         /// </summary>
-        public static string CreateSnippet_Help_SubTitle_Description
-        {
-            get
-            {
+        public static string CreateSnippet_Help_SubTitle_Description {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Help_SubTitle_Description", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die title ähnelt.
         /// </summary>
-        public static string CreateSnippet_Help_SubTitle_Title
-        {
-            get
-            {
+        public static string CreateSnippet_Help_SubTitle_Title {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Help_SubTitle_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Create snippet ähnelt.
         /// </summary>
-        public static string CreateSnippet_Help_Title
-        {
-            get
-            {
+        public static string CreateSnippet_Help_Title {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Help_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Snippet &apos;{0}&apos; created successfully ähnelt.
         /// </summary>
-        public static string CreateSnippet_Success_Message
-        {
-            get
-            {
+        public static string CreateSnippet_Success_Message {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Success_Message", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Created ähnelt.
         /// </summary>
-        public static string CreateSnippet_Success_Title
-        {
-            get
-            {
+        public static string CreateSnippet_Success_Title {
+            get {
                 return ResourceManager.GetString("CreateSnippet_Success_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Code copied to clipboard ähnelt.
         /// </summary>
-        public static string Preview_CodeCopied_Message
-        {
-            get
-            {
+        public static string Preview_CodeCopied_Message {
+            get {
                 return ResourceManager.GetString("Preview_CodeCopied_Message", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Copied ähnelt.
         /// </summary>
-        public static string Preview_CodeCopied_Title
-        {
-            get
-            {
+        public static string Preview_CodeCopied_Title {
+            get {
                 return ResourceManager.GetString("Preview_CodeCopied_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check your ByteStash URL and API Key in settings ähnelt.
         /// </summary>
-        public static string Query_Error_Connecting_SubTitle
-        {
-            get
-            {
+        public static string Query_Error_Connecting_SubTitle {
+            get {
                 return ResourceManager.GetString("Query_Error_Connecting_SubTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Connection Failed ähnelt.
         /// </summary>
-        public static string Query_Error_Connecting_Title
-        {
-            get
-            {
+        public static string Query_Error_Connecting_Title {
+            get {
                 return ResourceManager.GetString("Query_Error_Connecting_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check your ByteStash URL and API Key in settings ähnelt.
         /// </summary>
-        public static string Query_Error_MissingSettings_SubTitle
-        {
-            get
-            {
+        public static string Query_Error_MissingSettings_SubTitle {
+            get {
                 return ResourceManager.GetString("Query_Error_MissingSettings_SubTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Invalid Settings ähnelt.
         /// </summary>
-        public static string Query_Error_MissingSettings_Title
-        {
-            get
-            {
+        public static string Query_Error_MissingSettings_Title {
+            get {
                 return ResourceManager.GetString("Query_Error_MissingSettings_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Type &apos;+&apos; to create ähnelt.
         /// </summary>
-        public static string Query_HintCreate_SubTitle
-        {
-            get
-            {
+        public static string Query_HintCreate_SubTitle {
+            get {
                 return ResourceManager.GetString("Query_HintCreate_SubTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Create ähnelt.
         /// </summary>
-        public static string Query_HintCreate_Title
-        {
-            get
-            {
+        public static string Query_HintCreate_Title {
+            get {
                 return ResourceManager.GetString("Query_HintCreate_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Open ByteStash in browser ähnelt.
         /// </summary>
-        public static string Query_HintOpenUrl_SubTitle
-        {
-            get
-            {
+        public static string Query_HintOpenUrl_SubTitle {
+            get {
                 return ResourceManager.GetString("Query_HintOpenUrl_SubTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Open ähnelt.
         /// </summary>
-        public static string Query_HintOpenUrl_Title
-        {
-            get
-            {
+        public static string Query_HintOpenUrl_Title {
+            get {
                 return ResourceManager.GetString("Query_HintOpenUrl_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Type &apos;q&apos; to search ähnelt.
         /// </summary>
-        public static string Query_HintSearch_SubTitle
-        {
-            get
-            {
+        public static string Query_HintSearch_SubTitle {
+            get {
                 return ResourceManager.GetString("Query_HintSearch_SubTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Search ähnelt.
         /// </summary>
-        public static string Query_HintSearch_Title
-        {
-            get
-            {
+        public static string Query_HintSearch_Title {
+            get {
                 return ResourceManager.GetString("Query_HintSearch_Title", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Generate an API key in your ByteStash account settings for authentication. ähnelt.
         /// </summary>
-        public static string Settings_ApiKey_HelpText
-        {
-            get
-            {
+        public static string Settings_ApiKey_HelpText {
+            get {
                 return ResourceManager.GetString("Settings_ApiKey_HelpText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die API Key ähnelt.
         /// </summary>
-        public static string Settings_ApiKey_Label
-        {
-            get
-            {
+        public static string Settings_ApiKey_Label {
+            get {
                 return ResourceManager.GetString("Settings_ApiKey_Label", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die ByteStash URL ähnelt.
         /// </summary>
-        public static string Settings_BaseUrl_Label
-        {
-            get
-            {
+        public static string Settings_BaseUrl_Label {
+            get {
                 return ResourceManager.GetString("Settings_BaseUrl_Label", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die This delimiter is used to separate fields of the snippet (e.g., name, description, ...) in the query field during creation. ähnelt.
+        /// </summary>
+        public static string Settings_CreationQueryDelimiter_HelpText {
+            get {
+                return ResourceManager.GetString("Settings_CreationQueryDelimiter_HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Creation delimiter ähnelt.
+        /// </summary>
+        public static string Settings_CreationQueryDelimiter_Label {
+            get {
+                return ResourceManager.GetString("Settings_CreationQueryDelimiter_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Reset ähnelt.
+        /// </summary>
+        public static string Settings_CreationQueryDelimiter_ResetButton_Text {
+            get {
+                return ResourceManager.GetString("Settings_CreationQueryDelimiter_ResetButton_Text", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Search within code content, not just titles and descriptions. ähnelt.
         /// </summary>
-        public static string Settings_SearchInCode_HelpText
-        {
-            get
-            {
+        public static string Settings_SearchInCode_HelpText {
+            get {
                 return ResourceManager.GetString("Settings_SearchInCode_HelpText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Search in Code ähnelt.
         /// </summary>
-        public static string Settings_SearchInCode_Label
-        {
-            get
-            {
+        public static string Settings_SearchInCode_Label {
+            get {
                 return ResourceManager.GetString("Settings_SearchInCode_Label", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Copy code ähnelt.
         /// </summary>
-        public static string SnippetPreview_CopyCode_Tooltip
-        {
-            get
-            {
+        public static string SnippetPreview_CopyCode_Tooltip {
+            get {
                 return ResourceManager.GetString("SnippetPreview_CopyCode_Tooltip", resourceCulture);
             }
         }
