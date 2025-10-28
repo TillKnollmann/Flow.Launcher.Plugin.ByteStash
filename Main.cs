@@ -380,7 +380,15 @@ namespace Flow.Launcher.Plugin.ByteStash
 
                 ByteStashClient.ByteStashClient client = GetClient();
 
-                client.SnippetsPUT2Async(_cachedSnippetForEdit.Id, title, description, false, categoriesString, [], fragmentString).GetAwaiter().GetResult();
+                client.SnippetsPUT2Async(
+                    _cachedSnippetForEdit.Id,
+                    title,
+                    description,
+                    false,
+                    categoriesString,
+                    [],
+                    fragmentString
+                ).GetAwaiter().GetResult();
 
                 _context.API.ShowMsg(
                     Strings.EditSnippet_Success_Title,
