@@ -696,7 +696,7 @@ namespace Flow.Launcher.Plugin.ByteStash
                     Action = _ =>
                     {
                         DeleteSnippet(snippet);
-                        return false;
+                        return true;
                     }
                 });
             }
