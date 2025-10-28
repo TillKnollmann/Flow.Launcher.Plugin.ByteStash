@@ -11,5 +11,6 @@
         internal static string DISCONNECT = "disconnected.png";
         internal static string SNIPPET = "snippet.png";
         internal static string DELETE = "delete.png";
+        internal static string EDIT = "edit.png";
     }
 }

@@ -29,6 +29,7 @@ namespace Flow.Launcher.Plugin.ByteStash
         private Settings _settings;
         private PluginInitContext _context;
         private string _iconsPath;
+        private Snippet _cachedSnippetForEdit;
 
         /// <summary>
         /// Gets or creates the ByteStash client with current settings.
@@ -81,6 +82,12 @@ namespace Flow.Launcher.Plugin.ByteStash
                 {
                     return StaticResultProvider.GetInvalidSettingsResults(_context, _iconsPath);
                 }
+
+                if (query.Search.TrimStart().StartsWith('*'))
+                {
+                    return HandleEditSnippet(query.Search);
+                }
+                _cachedSnippetForEdit = null; // left edit mode, clear cached snippet
 
                 if (query.Search.TrimStart().StartsWith('+'))
                 {
@@ -150,29 +157,10 @@ namespace Flow.Launcher.Plugin.ByteStash
                 return results;
             }
 
+            var (title, description, categoriesRaw, categories, codeFragments) = ParseSnippetInput(input);
 
+            // If no code fragments provided, use clipboard content if available
             string clipboardCode = GetClipboardText();
-
-            string[] parts = [.. 
-                Regex.Split(input.TrimStart()[1..], GetDelimiterRegex())
-                    .Where((value, index) => index % 2 == 0) // remove matching delimiters
-                    .Select(p => p.Trim())
-            ];
-
-            string title = parts[0];
-            string description = parts.Length > 1 ? parts[1] : string.Empty;
-            string categoriesInput = parts.Length > 2 ? parts[2] : string.Empty;
-
-            List<string> categories = [];
-            if (!string.IsNullOrWhiteSpace(categoriesInput))
-            {
-                categories = [.. categoriesInput
-                    .Split(',')
-                    .Select(c => c.Trim())
-                    .Where(c => !string.IsNullOrWhiteSpace(c))];
-            }
-
-            List<string> codeFragments = parts.Length > 3 ? [.. parts.Skip(3)] : [];
             if (codeFragments.Count == 0 && !string.IsNullOrWhiteSpace(clipboardCode))
             {
                 codeFragments = [clipboardCode];
@@ -185,7 +173,7 @@ namespace Flow.Launcher.Plugin.ByteStash
             string previewTitle = !string.IsNullOrWhiteSpace(title) ? title : GetDefaultTitle();
             string previewDescription = !string.IsNullOrWhiteSpace(description) ? description : GetDefaultDescription();
 
-            string querySuggestionText = GetQuerySuggestionText(input, title, description, categoriesInput);
+            string querySuggestionText = GetQuerySuggestionText(input, title, description, categoriesRaw);
 
             results.Add(new Result
             {
@@ -202,6 +190,214 @@ namespace Flow.Launcher.Plugin.ByteStash
             });
 
             return results;
+        }
+
+        private List<Result> HandleEditSnippet(string input)
+        {
+            List<Result> results = [];
+
+            if (_cachedSnippetForEdit == null)
+            {
+
+                if (string.IsNullOrWhiteSpace(input.TrimStart()[1..])) // exclude the '*' sign
+                {
+                    results.Add(CreateEditModeHelpResult());
+                    return results;
+                }
+
+                string search = input.TrimStart()[1..].Trim();
+                ByteStashClient.ByteStashClient client = GetClient();
+
+                ICollection<Snippet> snippets = client.SearchAsync(
+                    search,
+                    Sort.AlphaAsc,
+                    _settings.SearchInCode
+                ).GetAwaiter().GetResult();
+
+                return [.. snippets.Select(CreateEditSearchResult)];
+            }
+
+            return [CreateEditFormResult(input)];
+        }
+
+        private Result CreateEditModeHelpResult()
+        {
+            return new Result
+            {
+                Title = Strings.EditSnippet_Help_Title,
+                SubTitle = Strings.EditSnippet_Help_SubTitle,
+                IcoPath = Path.Combine(_iconsPath, Icon.EDIT),
+                AutoCompleteText = "* ",
+                QuerySuggestionText = "* "
+            };
+        }
+
+        private Result CreateEditSearchResult(Snippet snippet)
+        {
+            return new Result
+            {
+                Title = snippet.Title,
+                SubTitle = Strings.EditSnippet_Search_SubTitle,
+                PreviewPanel = CreatePreviewPanel(snippet),
+                IcoPath = Path.Combine(_iconsPath, Icon.SNIPPET),
+                // Don't set ContextData to disable context menu in edit search mode
+                Action = _ =>
+                {
+                    _cachedSnippetForEdit = snippet;
+                    string query = BuildEditQuery(snippet);
+                    _context.API.ChangeQuery(query, true);
+                    return false;
+                }
+            };
+        }
+
+        private Result CreateEditFormResult(string input)
+        {
+            string fullCommand = "* "
+                  + Strings.CreateSnippet_Help_SubTitle_Title
+                  + " " + _settings.CreationQueryDelimiter + " "
+                  + Strings.CreateSnippet_Help_SubTitle_Description
+                  + " " + _settings.CreationQueryDelimiter + " "
+                  + Strings.CreateSnippet_Help_SubTitle_Categories
+                  + " " + _settings.CreationQueryDelimiter + " "
+                  + Strings.CreateSnippet_Help_SubTitle_Code
+                  + " "
+                  + string.Format(Strings.CreateSnippet_Help_SubTitle_CodeHint, _settings.CreationQueryDelimiter);
+
+            var (title, description, categoriesRaw, categories, codeFragments) = ParseSnippetInput(input);
+            if (codeFragments.Count == 0)
+            {
+                codeFragments = GetDefaultCodeFragments();
+            }
+
+            string previewTitle = !string.IsNullOrWhiteSpace(title) ? title : _cachedSnippetForEdit.Title;
+            string previewDescription = !string.IsNullOrWhiteSpace(description) ? description : _cachedSnippetForEdit.Description;
+
+            string querySuggestionText = GetQuerySuggestionText(input, title, description, categoriesRaw);
+
+            return new Result
+            {
+                Title = Strings.EditSnippet_Help_Title,
+                SubTitle = fullCommand,
+                AutoCompleteText = querySuggestionText,
+                QuerySuggestionText = querySuggestionText,
+                IcoPath = Path.Combine(_iconsPath, Icon.EDIT),
+                PreviewPanel = CreateSnippetCreationPreview(previewTitle, previewDescription, codeFragments, categories),
+                Action = _ =>
+                {
+                    bool result = UpdateSnippet(title, description, categories, codeFragments);
+                    if (result)
+                    {
+                        _cachedSnippetForEdit = null;
+                    }
+                    return result;
+                }
+            };
+        }
+
+        private (string title, string description, string categoriesRaw, List<string> categories, List<string> codeFragments) ParseSnippetInput(string input)
+        {
+            string[] parts = [..
+                Regex.Split(input.TrimStart()[1..], GetDelimiterRegex()) // remove command sign
+                    .Where((value, index) => index % 2 == 0) // remove regex matches
+                    .Select(p => p.Trim())
+            ];
+
+            string title = parts.Length > 0 ? parts[0] : string.Empty;
+            string description = parts.Length > 1 ? parts[1] : string.Empty;
+            string categoriesRaw = parts.Length > 2 ? parts[2] : string.Empty;
+
+            List<string> categories = [];
+            if (!string.IsNullOrWhiteSpace(categoriesRaw))
+            {
+                categories = [.. categoriesRaw
+                    .Split(',')
+                    .Select(c => c.Trim())
+                    .Where(c => !string.IsNullOrWhiteSpace(c))];
+            }
+
+            List<string> codeFragments = parts.Length > 3 ? [.. parts.Skip(3)] : [];
+
+            return (title, description, categoriesRaw, categories, codeFragments);
+        }
+
+        private string BuildEditQuery(Snippet snippet)
+        {
+
+            string title = snippet.Title ?? string.Empty;
+            string description = snippet.Description ?? string.Empty;
+            string categories = snippet.Categories != null && snippet.Categories.Count > 0
+                ? string.Join(", ", snippet.Categories)
+                : string.Empty;
+
+            List<string> codeFragments = snippet.Fragments?
+                .OrderBy(f => f.Position)
+                .Select(f => f.Code ?? string.Empty)
+                .ToList() ?? [];
+
+            string query = "stash * " + title;
+            if (!string.IsNullOrWhiteSpace(description) || !string.IsNullOrWhiteSpace(categories) || codeFragments.Count > 0)
+            {
+                query += " " + _settings.CreationQueryDelimiter + " " + description;
+            }
+            if (!string.IsNullOrWhiteSpace(categories) || codeFragments.Count > 0)
+            {
+                query += " " + _settings.CreationQueryDelimiter + " " + categories;
+            }
+            if (codeFragments.Count > 0)
+            {
+                query += " " + _settings.CreationQueryDelimiter + " " + string.Join(" " + _settings.CreationQueryDelimiter + " ", codeFragments);
+            }
+
+            return query;
+        }
+
+        private bool UpdateSnippet(string title, string description, List<string> categories, List<string> codeFragments)
+        {
+            try
+            {
+                if (_cachedSnippetForEdit == null)
+                {
+                    _context.API.ShowMsg(
+                        Strings.ContextMenu_Error_Title,
+                        Strings.EditSnippet_Error_NoSnippetSelected
+                    );
+                    return false;
+                }
+
+                if (codeFragments.Count == 0)
+                {
+                    _context.API.ShowMsg(
+                        Strings.ContextMenu_Error_Title,
+                        Strings.CreateSnippet_Error_EmptyCode
+                    );
+                    return false;
+                }
+
+                string fragmentString = GetSerialized(codeFragments);
+
+                string categoriesString = string.Join(",", categories ?? []);
+
+                ByteStashClient.ByteStashClient client = GetClient();
+
+                client.SnippetsPUT2Async(_cachedSnippetForEdit.Id, title, description, false, categoriesString, [], fragmentString);
+
+                _context.API.ShowMsg(
+                    Strings.EditSnippet_Success_Title,
+                    string.Format(Strings.EditSnippet_Success_Message, title)
+                );
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                _context.API.ShowMsg(
+                    Strings.ContextMenu_Error_Title,
+                    string.Format(Strings.EditSnippet_Error_CannotUpdate, ex.Message)
+                );
+                return false;
+            }
         }
 
         private string GetQuerySuggestionText(string input, string title, string description, string categoriesInput)
@@ -323,13 +519,7 @@ namespace Flow.Launcher.Plugin.ByteStash
                     return false;
                 }
 
-                string fragmentString = JsonSerializer.Serialize(ToFragment(codeFragments).Select((fragment) => new
-                {
-                    position = fragment.Position,
-                    file_name = fragment.File_name,
-                    language = fragment.Language,
-                    code = fragment.Code
-                }));
+                string fragmentString = GetSerialized(codeFragments);
 
                 string categoriesString = string.Join(",", categories ?? []);
 
@@ -358,6 +548,17 @@ namespace Flow.Launcher.Plugin.ByteStash
                 );
                 return false;
             }
+        }
+
+        private static string GetSerialized(List<string> codeFragments)
+        {
+            return JsonSerializer.Serialize(ToFragment(codeFragments).Select((fragment) => new
+            {
+                position = fragment.Position,
+                file_name = fragment.File_name,
+                language = fragment.Language,
+                code = fragment.Code
+            }));
         }
 
         private static List<Fragment> ToFragment(List<string> codeFragments)
@@ -437,6 +638,22 @@ namespace Flow.Launcher.Plugin.ByteStash
                             );
                             return false;
                         }
+                    }
+                });
+
+                // Add edit option
+                contextMenus.Add(new Result
+                {
+                    Title = Strings.ContextMenu_Edit,
+                    SubTitle = string.Format(Strings.ContextMenu_Edit_SubTitle, snippet.Title),
+                    IcoPath = Path.Combine(_iconsPath, Icon.EDIT),
+                    Action = _ =>
+                    {
+                        _cachedSnippetForEdit = snippet;
+                        string query = BuildEditQuery(snippet);
+                        _context.API.BackToQueryResults();
+                        _context.API.ChangeQuery(query, false);
+                        return false; // Don't close Flow Launcher
                     }
                 });
 

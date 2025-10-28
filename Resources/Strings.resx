@@ -267,4 +267,37 @@
   <data name="CreateSnippet_Help_SubTitle_CodeHint" xml:space="preserve">
     <value>(separate fragments by '{0}')</value>
   </data>
+  <data name="Query_HintEdit_Title" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Query_HintEdit_SubTitle" xml:space="preserve">
+    <value>Type '*' to edit</value>
+  </data>
+  <data name="EditSnippet_Help_Title" xml:space="preserve">
+    <value>Edit snippet</value>
+  </data>
+  <data name="EditSnippet_Success_Title" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="EditSnippet_Success_Message" xml:space="preserve">
+    <value>Snippet '{0}' updated successfully</value>
+  </data>
+  <data name="EditSnippet_Error_CannotUpdate" xml:space="preserve">
+    <value>Failed to update snippet: {0}</value>
+  </data>
+  <data name="ContextMenu_Edit" xml:space="preserve">
+    <value>Edit snippet</value>
+  </data>
+  <data name="ContextMenu_Edit_SubTitle" xml:space="preserve">
+    <value>Edit '{0}'</value>
+  </data>
+  <data name="EditSnippet_Help_SubTitle" xml:space="preserve">
+    <value>Search for a snippet to edit</value>
+  </data>
+  <data name="EditSnippet_Error_NoSnippetSelected" xml:space="preserve">
+    <value>No snippet selected for editing</value>
+  </data>
+  <data name="EditSnippet_Search_SubTitle" xml:space="preserve">
+    <value>Select to edit</value>
+  </data>
 </root>
