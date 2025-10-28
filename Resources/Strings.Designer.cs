@@ -160,6 +160,24 @@ namespace Flow.Launcher.Plugin.ByteStash.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit snippet ähnelt.
+        /// </summary>
+        public static string ContextMenu_Edit {
+            get {
+                return ResourceManager.GetString("ContextMenu_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit &apos;{0}&apos; ähnelt.
+        /// </summary>
+        public static string ContextMenu_Edit_SubTitle {
+            get {
+                return ResourceManager.GetString("ContextMenu_Edit_SubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Failed to open ByteStash: {0} ähnelt.
         /// </summary>
         public static string ContextMenu_Error_CannotOpenByteStash {
@@ -322,6 +340,69 @@ namespace Flow.Launcher.Plugin.ByteStash.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Failed to update snippet: {0} ähnelt.
+        /// </summary>
+        public static string EditSnippet_Error_CannotUpdate {
+            get {
+                return ResourceManager.GetString("EditSnippet_Error_CannotUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No snippet selected for editing ähnelt.
+        /// </summary>
+        public static string EditSnippet_Error_NoSnippetSelected {
+            get {
+                return ResourceManager.GetString("EditSnippet_Error_NoSnippetSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search for a snippet to edit ähnelt.
+        /// </summary>
+        public static string EditSnippet_Help_SubTitle {
+            get {
+                return ResourceManager.GetString("EditSnippet_Help_SubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit snippet ähnelt.
+        /// </summary>
+        public static string EditSnippet_Help_Title {
+            get {
+                return ResourceManager.GetString("EditSnippet_Help_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select to edit ähnelt.
+        /// </summary>
+        public static string EditSnippet_Search_SubTitle {
+            get {
+                return ResourceManager.GetString("EditSnippet_Search_SubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Snippet &apos;{0}&apos; updated successfully ähnelt.
+        /// </summary>
+        public static string EditSnippet_Success_Message {
+            get {
+                return ResourceManager.GetString("EditSnippet_Success_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Updated ähnelt.
+        /// </summary>
+        public static string EditSnippet_Success_Title {
+            get {
+                return ResourceManager.GetString("EditSnippet_Success_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Code copied to clipboard ähnelt.
         /// </summary>
         public static string Preview_CodeCopied_Message {
@@ -390,6 +471,24 @@ namespace Flow.Launcher.Plugin.ByteStash.Resources {
         public static string Query_HintCreate_Title {
             get {
                 return ResourceManager.GetString("Query_HintCreate_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Type &apos;*&apos; to edit ähnelt.
+        /// </summary>
+        public static string Query_HintEdit_SubTitle {
+            get {
+                return ResourceManager.GetString("Query_HintEdit_SubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit ähnelt.
+        /// </summary>
+        public static string Query_HintEdit_Title {
+            get {
+                return ResourceManager.GetString("Query_HintEdit_Title", resourceCulture);
             }
         }
         

@@ -53,6 +53,15 @@ namespace Flow.Launcher.Plugin.ByteStash.Helpers
                     }
                 },
                 new Result {
+                    Title = Strings.Query_HintEdit_Title,
+                    SubTitle = Strings.Query_HintEdit_SubTitle,
+                    IcoPath = Path.Combine(iconsPath, Icon.EDIT),
+                    Action = _ => {
+                        context.API.ChangeQuery("stash * ");
+                        return false;
+                    }
+                },
+                new Result {
                     Title = Strings.Query_HintOpenUrl_Title,
                     SubTitle = Strings.Query_HintOpenUrl_SubTitle,
                     IcoPath = Path.Combine(iconsPath, Icon.EXTERNAL_LINK),
@@ -77,7 +86,7 @@ namespace Flow.Launcher.Plugin.ByteStash.Helpers
         }
 
         internal static List<Result> GetErrorResults(PluginInitContext context, Exception ex, string iconsPath)
-        { 
+        {
             return [
                 new Result
                 {
