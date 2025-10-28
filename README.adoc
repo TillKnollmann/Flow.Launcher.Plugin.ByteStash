@@ -119,12 +119,47 @@ stash + <title> | <description> | <categories> | <code>
 |Comma-separated list of categories (optional)
 
 |`code`
-|Code content. If omitted, uses clipboard content
+|Code content. If omitted, uses clipboard content. Multiple fragments can be separated using `\|`
 |===
 
 
 [.center.text-center]
 image::DocAssets/CreateAnimation.webp[Create animation]
+
+==== Edit Snippets
+
+Editing existing snippets is a two-step process:
+
+1. Select the snippet to update
+    a. Type `stash q <search term>` to find the snippet, then _right-click_ or press _Shift+Enter_ on it and select "Update snippet" from the context menu.
+    b. Alternatively, go to the edit mode by typing `stash * <search term>`, then select the snippet from the results.
+2. Update the snippet details
+
+[source]
+----
+stash * <title> | <description> | <categories> | <code>
+----
+
+[cols="1,3"]
+|===
+|Parameter |Description
+
+|`title`
+|Title of the snippet (required)
+
+|`description`
+|Description of the snippet (optional)
+
+|`categories`
+|Comma-separated list of categories (optional)
+
+|`code`
+|Code content. If omitted, uses clipboard content. Multiple fragments can be separated using `\|`
+|===
+
+
+[.center.text-center]
+image::DocAssets/UpdateAnimation.webp[Update animation]
 
 ==== Delete Snippets
 
@@ -142,7 +177,8 @@ image::DocAssets/DeleteAnimation.webp[Delete animation]
 
 _Right-click_ or press _Shift+Enter_ on any snippet to access:
 
-* *View in ByteStash*: Opens the snippet in your ByteStash web interface
+* *Open in ByteStash*: Opens the snippet in your ByteStash web interface
+* *Edit Snippet*: Enter edit mode for the selected snippet
 * *Copy Code (Fragment)*: Copy individual code fragments (for multi-fragment snippets)
 * *Delete Snippet*: Remove the snippet from your collection
 
