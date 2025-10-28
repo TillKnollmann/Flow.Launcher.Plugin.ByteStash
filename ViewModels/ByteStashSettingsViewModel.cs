@@ -1,5 +1,4 @@
 ﻿using Flow.Launcher.Plugin.ByteStash.Helpers;
-using Flow.Launcher.Plugin.ByteStash.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
