@@ -324,8 +324,8 @@ namespace Flow.Launcher.Plugin.ByteStash
         private string BuildEditQuery(Snippet snippet)
         {
 
-            string title = snippet.Title ?? string.Empty;
-            string description = snippet.Description ?? string.Empty;
+            string title = snippet.Title ?? GetDefaultTitle();
+            string description = snippet.Description ?? GetDefaultDescription();
             string categories = snippet.Categories != null && snippet.Categories.Count > 0
                 ? string.Join(", ", snippet.Categories)
                 : string.Empty;
