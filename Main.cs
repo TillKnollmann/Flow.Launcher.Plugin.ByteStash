@@ -3,11 +3,13 @@ using Flow.Launcher.Plugin.ByteStash.Helpers;
 using Flow.Launcher.Plugin.ByteStash.Resources;
 using Flow.Launcher.Plugin.ByteStash.ViewModels;
 using Flow.Launcher.Plugin.ByteStash.Views;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -153,7 +155,11 @@ namespace Flow.Launcher.Plugin.ByteStash
 
             string clipboardCode = GetClipboardText();
 
-            string[] parts = [.. Regex.Split(input.TrimStart()[1..], GetDelimiterRegex()).Select(p => p.Trim()).Where((s) => !string.IsNullOrEmpty(s))];
+            string[] parts = [.. 
+                Regex.Split(input.TrimStart()[1..], GetDelimiterRegex())
+                    .Where((value, index) => index%2== 0) // remove matching delimiters
+                    .Select(p => p.Trim())
+            ];
 
             string title = parts[0];
             string description = parts.Length > 1 ? parts[1] : string.Empty;
@@ -250,7 +256,7 @@ namespace Flow.Launcher.Plugin.ByteStash
         private string GetDelimiterRegex()
         {
             string escapedDelimiter = Regex.Escape(_settings.CreationQueryDelimiter);
-            return string.Format(@"\s{0}(\s|$)", escapedDelimiter);
+            return string.Format(@"(?<=\s){0}(\s|$)", escapedDelimiter);
         }
 
         private static string GetClipboardText()
