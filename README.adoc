@@ -64,7 +64,7 @@ After installation, you need to configure the plugin with your ByteStash connect
 |Enable this option to search within snippet code in addition to titles and descriptions
 
 |*Creation delimiter*
-|The delimiter used when creating new snippets (default is `|`)
+|The delimiter used when creating new snippets (default is `\|`)
 |===
 
 == Usage
