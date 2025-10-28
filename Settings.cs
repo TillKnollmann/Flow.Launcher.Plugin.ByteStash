@@ -20,5 +20,15 @@ namespace Flow.Launcher.Plugin.ByteStash
         /// Indicates whether the search operation should include searching in the code.
         /// </summary>
         public bool SearchInCode { get; set; } = false;
+
+        /// <summary>
+        /// The delimiter used when creating new entries.
+        /// </summary>
+        public string CreationQueryDelimiter { get; set; } = DefaultCreationQueryDelimiter;
+
+        /// <summary>
+        /// The default delimiter used when creating new entries.
+        /// </summary>
+        public static string DefaultCreationQueryDelimiter => "|";
     }
 }

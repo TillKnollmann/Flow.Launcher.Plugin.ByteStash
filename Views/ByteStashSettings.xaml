@@ -8,17 +8,18 @@
              xmlns:resources="clr-namespace:Flow.Launcher.Plugin.ByteStash.Resources"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:ByteStashSettingsViewModel}"
-             d:DesignHeight="200"
+             d:DesignHeight="250"
              d:DesignWidth="900"
              Background="Transparent">
     <StackPanel Orientation="Vertical"
                 Margin="20">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -79,6 +80,36 @@
                 <CheckBox IsChecked="{Binding SearchInCode, UpdateSourceTrigger=PropertyChanged}"
                           VerticalAlignment="Center" />
                 <TextBlock Text="{x:Static resources:Strings.Settings_SearchInCode_HelpText}"
+                           Style="{DynamicResource SettingSubTitleLabel}"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+            
+            <!-- Creation query delimiter -->
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       Text="{x:Static resources:Strings.Settings_CreationQueryDelimiter_Label}"
+                       VerticalAlignment="Top"
+                       Margin="0,5,10,0" />
+            <StackPanel Grid.Row="3"
+                        Grid.Column="1"
+                        Orientation="Vertical"
+                        Margin="0,0,0,15">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Row="0" 
+                             Grid.Column="0" 
+                             Margin="0,0,8,0"
+                             Text="{Binding CreationQueryDelimiter, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Grid.Row="0" 
+                            Grid.Column="1" 
+                            Command="{Binding ResetCreationQueryDelimiterCommand}">
+                        <TextBlock Text="{x:Static resources:Strings.Settings_CreationQueryDelimiter_ResetButton_Text}" />
+                    </Button>
+                </Grid>
+                <TextBlock Text="{x:Static resources:Strings.Settings_CreationQueryDelimiter_HelpText}"
                            Style="{DynamicResource SettingSubTitleLabel}"
                            Margin="0,4,0,0" />
             </StackPanel>

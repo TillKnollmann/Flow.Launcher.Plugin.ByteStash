@@ -48,6 +48,7 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
             }
 
             OpenUrlCommand = new RelayCommand(OpenUrl, CanOpenUrl);
+            ResetCreationQueryDelimiterCommand = new RelayCommand(ResetCreationQueryDelimiter);
         }
 
         /// <summary>
@@ -58,11 +59,11 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
             get => _settings.BaseUrl;
             set
             {
-                if (_settings.BaseUrl != value)
+                if (_settings.BaseUrl != value.Trim())
                 {
-                    _settings.BaseUrl = value;
+                    _settings.BaseUrl = value.Trim();
                     _context.API.SaveSettingJsonStorage<Settings>();
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(BaseUrl));
                     (OpenUrlCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 }
             }
@@ -87,11 +88,11 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
             get => _settings.ApiKey;
             set
             {
-                if (_settings.ApiKey != value)
+                if (_settings.ApiKey != value.Trim())
                 {
-                    _settings.ApiKey = value;
+                    _settings.ApiKey = value.Trim();
                     _context.API.SaveSettingJsonStorage<Settings>();
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(ApiKey));
                 }
             }
         }
@@ -108,7 +109,24 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
                 {
                     _settings.SearchInCode = value;
                     _context.API.SaveSettingJsonStorage<Settings>();
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(SearchInCode));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the delimiter used to separate queries during the creation process.
+        /// </summary>
+        public string CreationQueryDelimiter
+        {
+            get => _settings.CreationQueryDelimiter;
+            set
+            {
+                if (_settings.CreationQueryDelimiter != value.Trim())
+                {
+                    _settings.CreationQueryDelimiter = value.Trim();
+                    _context.API.SaveSettingJsonStorage<Settings>();
+                    OnPropertyChanged(nameof(CreationQueryDelimiter));
                 }
             }
         }
@@ -154,6 +172,20 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
         private bool CanOpenUrl()
         {
             return !string.IsNullOrWhiteSpace(BaseUrl);
+        }
+
+        /// <summary>
+        /// Gets the command to reset the creation query delimiter to its default value.
+        /// </summary>
+        public ICommand ResetCreationQueryDelimiterCommand { get; }
+
+        /// <summary>
+        /// Resets the creation query delimiter to its default value.
+        /// </summary>
+        private void ResetCreationQueryDelimiter()
+        {
+
+            CreationQueryDelimiter = Settings.DefaultCreationQueryDelimiter;
         }
     }
 }

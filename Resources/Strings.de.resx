@@ -255,4 +255,49 @@
   <data name="ContextMenu_Delete_Error_Message" xml:space="preserve">
     <value>'{0}' konnte nicht gelöscht werden: '{1}'</value>
   </data>
+  <data name="Settings_CreationQueryDelimiter_HelpText" xml:space="preserve">
+    <value>Während der Erstellung eines Snippets wird dieses Trennzeichen verwendet, um Felder des Snippets (z.B. Name, Beschreibung, ...) im Eingabefeld voneinander zu trennen.</value>
+  </data>
+  <data name="Settings_CreationQueryDelimiter_Label" xml:space="preserve">
+    <value>Erstellungstrennzeichen</value>
+  </data>
+  <data name="Settings_CreationQueryDelimiter_ResetButton_Text" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="CreateSnippet_Help_SubTitle_CodeHint" xml:space="preserve">
+    <value>(Fragmente durch '{0}' trennen)</value>
+  </data>
+  <data name="Query_HintEdit_Title" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="Query_HintEdit_SubTitle" xml:space="preserve">
+    <value>'*' zum Bearbeiten eingeben</value>
+  </data>
+  <data name="EditSnippet_Help_Title" xml:space="preserve">
+    <value>Snippet bearbeiten</value>
+  </data>
+  <data name="EditSnippet_Success_Title" xml:space="preserve">
+    <value>Aktualisiert</value>
+  </data>
+  <data name="EditSnippet_Success_Message" xml:space="preserve">
+    <value>Snippet '{0}' erfolgreich aktualisiert</value>
+  </data>
+  <data name="EditSnippet_Error_CannotUpdate" xml:space="preserve">
+    <value>Snippet konnte nicht aktualisiert werden: {0}</value>
+  </data>
+  <data name="ContextMenu_Edit" xml:space="preserve">
+    <value>Snippet bearbeiten</value>
+  </data>
+  <data name="ContextMenu_Edit_SubTitle" xml:space="preserve">
+    <value>'{0}' bearbeiten</value>
+  </data>
+  <data name="EditSnippet_Help_SubTitle" xml:space="preserve">
+    <value>Suche nach einem Snippet zum Bearbeiten</value>
+  </data>
+  <data name="EditSnippet_Error_NoSnippetSelected" xml:space="preserve">
+    <value>Kein Snippet zum Bearbeiten ausgewählt</value>
+  </data>
+  <data name="EditSnippet_Search_SubTitle" xml:space="preserve">
+    <value>Zum Bearbeiten auswählen</value>
+  </data>
 </root>
