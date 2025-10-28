@@ -110,8 +110,8 @@
                     </Button>
                 </Grid>
                 <TextBlock Text="{x:Static resources:Strings.Settings_CreationQueryDelimiter_HelpText}"
-               Style="{DynamicResource SettingSubTitleLabel}"
-               Margin="0,4,0,0" />
+                           Style="{DynamicResource SettingSubTitleLabel}"
+                           Margin="0,4,0,0" />
             </StackPanel>
         </Grid>
     </StackPanel>

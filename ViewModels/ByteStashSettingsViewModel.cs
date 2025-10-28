@@ -186,7 +186,7 @@ namespace Flow.Launcher.Plugin.ByteStash.ViewModels
         private void ResetCreationQueryDelimiter()
         {
 
-            CreationQueryDelimiter = "|";
+            CreationQueryDelimiter = Settings.DefaultCreationQueryDelimiter;
         }
     }
 }

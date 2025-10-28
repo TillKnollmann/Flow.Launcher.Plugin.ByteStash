@@ -24,6 +24,11 @@ namespace Flow.Launcher.Plugin.ByteStash
         /// <summary>
         /// The delimiter used when creating new entries.
         /// </summary>
-        public string CreationQueryDelimiter { get; set; } = "|";
+        public string CreationQueryDelimiter { get; set; } = DefaultCreationQueryDelimiter;
+
+        /// <summary>
+        /// The default delimiter used when creating new entries.
+        /// </summary>
+        public static string DefaultCreationQueryDelimiter => "|";
     }
 }

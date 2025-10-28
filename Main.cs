@@ -157,7 +157,7 @@ namespace Flow.Launcher.Plugin.ByteStash
 
             string[] parts = [.. 
                 Regex.Split(input.TrimStart()[1..], GetDelimiterRegex())
-                    .Where((value, index) => index%2== 0) // remove matching delimiters
+                    .Where((value, index) => index % 2 == 0) // remove matching delimiters
                     .Select(p => p.Trim())
             ];
 
@@ -336,7 +336,7 @@ namespace Flow.Launcher.Plugin.ByteStash
                 string categoriesString = string.Join(",", categories ?? []);
 
                 ByteStashClient.ByteStashClient client = GetClient();
-                Snippet createdSnippet = client.PushAsync(
+                client.PushAsync(
                     !string.IsNullOrWhiteSpace(title) ? title : GetDefaultTitle(),
                     !string.IsNullOrWhiteSpace(description) ? description : GetDefaultDescription(),
                     false,
