@@ -131,7 +131,7 @@ image::DocAssets/CreateAnimation.webp[Create animation]
 Editing existing snippets is a two-step process:
 
 1. Select the snippet to update
-    a. Type `stash q <search term>` to find the snippet, then _right-click_ or press _Shift+Enter_ on it and select "Update snippet" from the context menu.
+    a. Type `stash q <search term>` to find the snippet, then _right-click_ or press _Shift+Enter_ on it and select "Edit snippet" from the context menu.
     b. Alternatively, go to the edit mode by typing `stash * <search term>`, then select the snippet from the results.
 2. Update the snippet details
 
