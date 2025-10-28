@@ -268,6 +268,15 @@ namespace Flow.Launcher.Plugin.ByteStash.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die (separate fragments by &apos;{0}&apos;) ähnelt.
+        /// </summary>
+        public static string CreateSnippet_Help_SubTitle_CodeHint {
+            get {
+                return ResourceManager.GetString("CreateSnippet_Help_SubTitle_CodeHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die description ähnelt.
         /// </summary>
         public static string CreateSnippet_Help_SubTitle_Description {

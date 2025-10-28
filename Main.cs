@@ -1,3 +1,4 @@
+using ByteStashClient;
 using Flow.Launcher.Plugin.ByteStash.Helpers;
 using Flow.Launcher.Plugin.ByteStash.Resources;
 using Flow.Launcher.Plugin.ByteStash.ViewModels;
@@ -27,7 +28,7 @@ namespace Flow.Launcher.Plugin.ByteStash
         private ByteStashSettingsViewModel _viewModel;
         private Settings _settings;
         private PluginInitContext _context;
-        private String _iconsPath;
+        private string _iconsPath;
 
         /// <summary>
         /// Gets or creates the ByteStash client with current settings.
@@ -83,7 +84,7 @@ namespace Flow.Launcher.Plugin.ByteStash
 
                 if (query.Search.TrimStart().StartsWith('+'))
                 {
-                    return HandleCreateSnippet(query.Search.TrimStart()[1..].Trim());
+                    return HandleCreateSnippet(query.Search);
                 }
 
                 if (!query.Search.TrimStart().StartsWith('q'))
@@ -95,9 +96,9 @@ namespace Flow.Launcher.Plugin.ByteStash
 
                 ByteStashClient.ByteStashClient client = GetClient();
 
-                ICollection<ByteStashClient.Snippet> snippets = client.SearchAsync(
+                ICollection<Snippet> snippets = client.SearchAsync(
                     search,
-                    ByteStashClient.Sort.AlphaAsc,
+                    Sort.AlphaAsc,
                     _settings.SearchInCode
                 ).GetAwaiter().GetResult();
 
@@ -132,9 +133,11 @@ namespace Flow.Launcher.Plugin.ByteStash
                 + " " + _settings.CreationQueryDelimiter + " "
                 + Strings.CreateSnippet_Help_SubTitle_Categories
                 + " " + _settings.CreationQueryDelimiter + " "
-                + Strings.CreateSnippet_Help_SubTitle_Code;
+                + Strings.CreateSnippet_Help_SubTitle_Code
+                + " "
+                + string.Format(Strings.CreateSnippet_Help_SubTitle_CodeHint, _settings.CreationQueryDelimiter);
 
-            if (string.IsNullOrWhiteSpace(input))
+            if (string.IsNullOrWhiteSpace(input.TrimStart()[1..])) // exclude the '+' sign
             {
                 results.Add(new Result
                 {
@@ -150,12 +153,11 @@ namespace Flow.Launcher.Plugin.ByteStash
 
             string clipboardCode = GetClipboardText();
 
-            var parts = input.Split(" " + _settings.CreationQueryDelimiter + " ").Select(p => p.Trim()).ToArray();
+            string[] parts = [.. Regex.Split(input.TrimStart()[1..], GetDelimiterRegex()).Select(p => p.Trim()).Where((s) => !string.IsNullOrEmpty(s))];
 
             string title = parts[0];
             string description = parts.Length > 1 ? parts[1] : string.Empty;
             string categoriesInput = parts.Length > 2 ? parts[2] : string.Empty;
-            string explicitCode = parts.Length > 3 ? parts[3] : null;
 
             List<string> categories = [];
             if (!string.IsNullOrWhiteSpace(categoriesInput))
@@ -166,19 +168,20 @@ namespace Flow.Launcher.Plugin.ByteStash
                     .Where(c => !string.IsNullOrWhiteSpace(c))];
             }
 
-            string code = !string.IsNullOrWhiteSpace(explicitCode) ? explicitCode : clipboardCode;
-            bool hasCode = !string.IsNullOrWhiteSpace(code);
-
-            string previewTitle = !string.IsNullOrWhiteSpace(title) ? title : "// TODO: " + Strings.CreateSnippet_Help_SubTitle_Title;
-            string previewDescription = !string.IsNullOrWhiteSpace(description) ? description : "// TODO: " + Strings.CreateSnippet_Help_SubTitle_Description;
-            string previewCode = hasCode ? code : "// TODO: " + Strings.CreateSnippet_Help_SubTitle_Code;
-
-            if (hasCode)
+            List<string> codeFragments = parts.Length > 3 ? [.. parts.Skip(3)] : [];
+            if (codeFragments.Count == 0 && !string.IsNullOrWhiteSpace(clipboardCode))
             {
-                string language = LanguageDetector.DetectLanguage(code);
+                codeFragments = [clipboardCode];
+            }
+            if (codeFragments.Count == 0)
+            {
+                codeFragments = GetDefaultCodeFragments();
             }
 
-            string querySuggestionText = GetQuerySuggestionText(input, description, categoriesInput);
+            string previewTitle = !string.IsNullOrWhiteSpace(title) ? title : GetDefaultTitle();
+            string previewDescription = !string.IsNullOrWhiteSpace(description) ? description : GetDefaultDescription();
+
+            string querySuggestionText = GetQuerySuggestionText(input, title, description, categoriesInput);
 
             results.Add(new Result
             {
@@ -187,50 +190,67 @@ namespace Flow.Launcher.Plugin.ByteStash
                 AutoCompleteText = querySuggestionText,
                 QuerySuggestionText = querySuggestionText,
                 IcoPath = Path.Combine(_iconsPath, Icon.NEW_SNIPPET),
-                PreviewPanel = CreateSnippetCreationPreview(previewTitle, previewDescription, previewCode, hasCode, categories),
+                PreviewPanel = CreateSnippetCreationPreview(previewTitle, previewDescription, codeFragments, categories),
                 Action = _ =>
                 {
-                    return CreateSnippet(title, description, categories, code);
+                    return CreateSnippet(title, description, categories, codeFragments);
                 }
             });
 
             return results;
         }
 
-        private string GetQuerySuggestionText(string input, string description, string categoriesInput)
+        private string GetQuerySuggestionText(string input, string title, string description, string categoriesInput)
         {
-            string querySuggestionText = "+ " + input;
-            int progress = Regex.Matches(querySuggestionText, " " + _settings.CreationQueryDelimiter + " ").Count;
+            string querySuggestionText = input;
+            int progress = Regex.Matches(input, GetDelimiterRegex()).Count;
             if (progress < 1)
             {
-                querySuggestionText += " " + _settings.CreationQueryDelimiter + " ";
-            }
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                if (querySuggestionText.EndsWith(" "+ _settings.CreationQueryDelimiter))
+                if (string.IsNullOrWhiteSpace(title))
                 {
-                    querySuggestionText += " ";
+                    if (!querySuggestionText.EndsWith(' '))
+                        querySuggestionText += " ";
+
+                    querySuggestionText += Strings.CreateSnippet_Help_SubTitle_Title;
                 }
-                querySuggestionText += Strings.CreateSnippet_Help_SubTitle_Description;
+                querySuggestionText += " " + _settings.CreationQueryDelimiter + " ";
             }
             if (progress < 2)
             {
-                querySuggestionText += " " + _settings.CreationQueryDelimiter + " ";
-            }
-            if (string.IsNullOrWhiteSpace(categoriesInput))
-            {
-                if (querySuggestionText.EndsWith(" " + _settings.CreationQueryDelimiter))
+                if (string.IsNullOrWhiteSpace(description))
                 {
-                    querySuggestionText += " ";
+                    if (!querySuggestionText.EndsWith(' '))
+                        querySuggestionText += " ";
+
+                    querySuggestionText += Strings.CreateSnippet_Help_SubTitle_Description;
                 }
-                querySuggestionText += Strings.CreateSnippet_Help_SubTitle_Categories;
+                querySuggestionText += " " + _settings.CreationQueryDelimiter + " ";
             }
             if (progress < 3)
             {
-                querySuggestionText += " " + _settings.CreationQueryDelimiter + " " + Strings.CreateSnippet_Help_SubTitle_Code;
+                if (string.IsNullOrWhiteSpace(categoriesInput))
+                {
+                    if (!querySuggestionText.EndsWith(' '))
+                        querySuggestionText += " ";
+
+                    querySuggestionText += Strings.CreateSnippet_Help_SubTitle_Categories;
+                }
+                querySuggestionText += " "
+                    + _settings.CreationQueryDelimiter
+                    + " "
+                    + Strings.CreateSnippet_Help_SubTitle_Code;
             }
+            if (!querySuggestionText.EndsWith(' '))
+                querySuggestionText += " ";
+            querySuggestionText += string.Format(Strings.CreateSnippet_Help_SubTitle_CodeHint, _settings.CreationQueryDelimiter);
 
             return querySuggestionText;
+        }
+
+        private string GetDelimiterRegex()
+        {
+            string escapedDelimiter = Regex.Escape(_settings.CreationQueryDelimiter);
+            return string.Format(@"\s{0}(\s|$)", escapedDelimiter);
         }
 
         private static string GetClipboardText()
@@ -258,29 +278,20 @@ namespace Flow.Launcher.Plugin.ByteStash
             return clipboardText;
         }
 
-        private Lazy<UserControl> CreateSnippetCreationPreview(string title, string description, string code, bool hasRealCode, List<string> categories)
+        private Lazy<UserControl> CreateSnippetCreationPreview(string title, string description, List<string> codeFragments, List<string> categories)
         {
             return new Lazy<UserControl>(() =>
             {
                 try
                 {
-                    string language = hasRealCode ? LanguageDetector.DetectLanguage(code) : "plaintext";
+                    List<Fragment> fragments = ToFragment(codeFragments);
 
-                    var snippetPreview = new ByteStashClient.Snippet
+                    Snippet snippetPreview = new()
                     {
                         Title = title,
                         Description = description,
                         Categories = categories ?? [],
-                        Fragments =
-                        [
-                            new ByteStashClient.Fragment
-                            {
-                                File_name = "main",
-                                Code = code,
-                                Language = language,
-                                Position = 0
-                            }
-                        ]
+                        Fragments = fragments
                     };
 
                     var preview = new SnippetPreview();
@@ -295,11 +306,11 @@ namespace Flow.Launcher.Plugin.ByteStash
             });
         }
 
-        private bool CreateSnippet(string title, string description, List<string> categories, string code)
+        private bool CreateSnippet(string title, string description, List<string> categories, List<string> codeFragments)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(code))
+                if (codeFragments.Count == 0)
                 {
                     _context.API.ShowMsg(
                         Strings.ContextMenu_Error_Title,
@@ -308,28 +319,24 @@ namespace Flow.Launcher.Plugin.ByteStash
                     return false;
                 }
 
-                string language = LanguageDetector.DetectLanguage(code);
-                var fragments = new[]
+                string fragmentString = JsonSerializer.Serialize(ToFragment(codeFragments).Select((fragment) => new
                 {
-                    new
-                    {
-                        file_name = "main",
-                        code,
-                        language,
-                        position = 0
-                    }
-                };
+                    position = fragment.Position,
+                    file_name = fragment.File_name,
+                    language = fragment.Language,
+                    code = fragment.Code
+                }));
 
                 string categoriesString = string.Join(",", categories ?? []);
 
                 ByteStashClient.ByteStashClient client = GetClient();
-                ByteStashClient.Snippet createdSnippet = client.PushAsync(
-                    title,
-                    description,
+                Snippet createdSnippet = client.PushAsync(
+                    !string.IsNullOrWhiteSpace(title) ? title : GetDefaultTitle(),
+                    !string.IsNullOrWhiteSpace(description) ? description : GetDefaultDescription(),
                     false,
                     categoriesString,
                     [],
-                    JsonSerializer.Serialize(fragments)
+                    fragmentString
                 ).GetAwaiter().GetResult();
 
                 _context.API.ShowMsg(
@@ -349,7 +356,37 @@ namespace Flow.Launcher.Plugin.ByteStash
             }
         }
 
-        private Lazy<UserControl> CreatePreviewPanel(ByteStashClient.Snippet snippet)
+        private static List<Fragment> ToFragment(List<string> codeFragments)
+        {
+            return [.. codeFragments.Select((code, index) =>
+                    {
+                        string language = LanguageDetector.DetectLanguage(code);
+                        return new Fragment
+                        {
+                            Position = index,
+                            File_name = "fragment_" + (index + 1),
+                            Language = language,
+                            Code = code
+                        };
+                    })];
+        }
+
+        private static string GetDefaultTitle()
+        {
+            return "// TODO: " + Strings.CreateSnippet_Help_SubTitle_Title;
+        }
+        private static string GetDefaultDescription()
+        {
+            return "// TODO: " + Strings.CreateSnippet_Help_SubTitle_Description;
+        }
+
+        private static List<string> GetDefaultCodeFragments()
+        {
+            return ["// TODO: " + Strings.CreateSnippet_Help_SubTitle_Code];
+        }
+
+
+        private Lazy<UserControl> CreatePreviewPanel(Snippet snippet)
         {
             return new Lazy<UserControl>(() =>
             {
@@ -368,7 +405,7 @@ namespace Flow.Launcher.Plugin.ByteStash
         {
             List<Result> contextMenus = [];
 
-            if (selectedResult?.ContextData is ByteStashClient.Snippet snippet)
+            if (selectedResult?.ContextData is Snippet snippet)
             {
                 // Add "Open in ByteStash"
                 contextMenus.Add(new Result
