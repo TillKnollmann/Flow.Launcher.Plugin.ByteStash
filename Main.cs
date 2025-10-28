@@ -270,8 +270,8 @@ namespace Flow.Launcher.Plugin.ByteStash
                 codeFragments = GetDefaultCodeFragments();
             }
 
-            string previewTitle = !string.IsNullOrWhiteSpace(title) ? title : _cachedSnippetForEdit.Title;
-            string previewDescription = !string.IsNullOrWhiteSpace(description) ? description : _cachedSnippetForEdit.Description;
+            string previewTitle = !string.IsNullOrWhiteSpace(title) ? title : (_cachedSnippetForEdit.Title ?? GetDefaultTitle());
+            string previewDescription = !string.IsNullOrWhiteSpace(description) ? description : (_cachedSnippetForEdit.Description ?? GetDefaultDescription());
 
             string querySuggestionText = GetQuerySuggestionText(input, title, description, categoriesRaw);
 
