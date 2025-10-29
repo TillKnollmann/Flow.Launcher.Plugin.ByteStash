@@ -5,7 +5,7 @@
     "Name": "Byte Stash",
     "Description": "Search and manage code snippets in ByteStash",
     "Author": "TillKnollmann",
-    "Version": "1.1.0",
+    "Version": "1.1.1",
     "Language": "csharp",
     "Website": "https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash",
     "IcoPath": "Images/app.png",
