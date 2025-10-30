@@ -1,0 +1,26 @@
+name: Validate Plugin Version
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read and validate plugin version
+        run: |
+          VERSION=$(jq -r '.Version' plugin.json)
+          echo "Found version: $VERSION"
+
+          # Semantic version regex: major.minor.patch (optionally with pre-release or build)
+          SEMVER_REGEX='^([0-9]+)\.([0-9]+)\.([0-9]+)$'
+
+          if [[ ! "$VERSION" =~ $SEMVER_REGEX ]]; then
+            echo "::error file=plugin.json,line=1,col=1::Invalid semantic version: '$VERSION'. Expected format: MAJOR.MINOR.PATCH"
+            exit 1
+          fi
