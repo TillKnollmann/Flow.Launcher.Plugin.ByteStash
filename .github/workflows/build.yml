@@ -1,0 +1,68 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Generate API Client
+        shell: pwsh
+        run: |
+          dotnet msbuild -t:GenerateOpenApiCode -p:Configuration=Release
+
+          $generatedFile = Get-ChildItem -Path "obj" -Recurse -Filter "*Client.cs" | Select-Object -First 1
+          if ($generatedFile) {
+            Write-Host "✓ API Client generated: $($generatedFile.FullName)"
+          } else {
+            Write-Error "✗ API Client generation failed"
+            exit 1
+          }
+
+      - name: Publish
+        run: dotnet publish -c Release -r win-x64 --no-self-contained
+
+      - name: Verify publish output
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $publishDir = "bin\Release\win-x64\publish"
+
+          if (-not (Test-Path $publishDir)) {
+            Write-Error "Publish directory not found: $publishDir"
+            exit 1
+          }
+
+          $requiredFiles = @(
+            "$publishDir\Flow.Launcher.Plugin.ByteStash.dll",
+            "$publishDir\plugin.json"
+          )
+
+          foreach ($file in $requiredFiles) {
+            if (-not (Test-Path $file)) {
+              Write-Error "Required file not found: $file"
+              exit 1
+            } else {
+              Write-Host "✓ Found: $file"
+            }
+          }
+
+          Write-Host "✓ All required files present"
