@@ -1,0 +1,18 @@
+= Changelog
+
+== Unreleased
+
+* TODO
+
+== https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash/releases/tag/v1.1.1[1.1.1] – 29.10.25
+
+* update images
+
+== https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash/releases/tag/v1.1.0[1.1.0] – 29.10.25
+
+* https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash/issues/4[Issue #4] allow multiple code fragments per snippet
+* https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash/issues/2[Issue #2] support editing snippets
+
+== https://github.com/TillKnollmann/Flow.Launcher.Plugin.ByteStash/releases/tag/v1.0.0[1.0.0] – 23.10.25
+
+* Initial version

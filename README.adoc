@@ -4,14 +4,16 @@
 :source-highlighter: rouge
 
 ++++
-<p align="center" style="margin-top:30px;margin-bottom:30px;"><a href="https://github.com/jordan-dalby/ByteStash"><img src= "DocAssets/ByteStash.png" width="10%"/></a><img src= "DocAssets/heart.png" width="10%"/><a href="https://www.flowlauncher.com"><img src= "DocAssets/FlowLauncher.png" width="10%"/></a></p>
+<p style="margin-top:30px;margin-bottom:30px;display:flex;justify-content:center;align-items:center;gap:10px;">
+    <img src="DocAssets/ByteStash.png" width="30px" height="30px"/>
+    <img src="DocAssets/heart.png" width="30px" height="30px" />
+    <img src="DocAssets/FlowLauncher.png" width="30px" height="30px"/>
+</p>
 ++++
 
 = Byte Stash Plugin for FlowLauncher
 
 A powerful https://www.flowlauncher.com/[FlowLauncher] plugin for managing and accessing your code snippets stored in https://github.com/jordan-dalby/ByteStash[ByteStash] directly from your launcher.
-
-The plugin seamlessly integrates your ByteStash snippet collection with FlowLauncher, enabling you to search, create, and manage your code snippets without leaving your workflow.
 
 toc::[]
 :toclevels: 3
@@ -210,8 +212,6 @@ This plugin makes use of the following resources:
 
 * *https://github.com/jordan-dalby/ByteStash[ByteStash]*: The snippet management system this plugin connects to
 * *https://icons8.com[Icons8]*: Icons used in the plugin interface
-
-Special thanks to the ByteStash team for creating an excellent snippet management platform!
 
 == Contributing
 
